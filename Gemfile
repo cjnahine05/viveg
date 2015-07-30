@@ -24,8 +24,7 @@ gem 'devise'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem 'carrierwave'
 gem 'bootstrap-generators', '~> 3.3.1'
-gem 'pg'
-gem 'rails_12factor'
+
 gem "fog"
 gem 'certified'
 gem 'bcrypt-ruby', :require => 'bcrypt'
