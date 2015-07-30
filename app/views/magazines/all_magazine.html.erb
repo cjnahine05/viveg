@@ -1,0 +1,494 @@
+<%= render 'layouts/admin_nav' %>
+<div class="page-header" style="padding-bottom: 0px;border-bottom-width: 0px;">
+  <div class="btn-group pull-right">
+    <button type="button" class="btn btn-success">Menu</button>
+    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="caret"></span>
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu" style="padding-bottom: 0px;padding-top: 0px;">
+      <li> <%= link_to magazines_path, :class => 'btn-warning' do %>
+            <span class="glyphicon glyphicon-align-justify"></span>
+            Admin List of Magazine
+        <% end %></li>
+      <li> <%= link_to active_magazine_path, :class => 'btn-success' do %>
+            <span class="glyphicon glyphicon-flag"></span>
+            Admin Active Magazine
+        <% end %></li>
+      <li> <%= link_to inactive_magazine_path, :class => 'btn-danger' do %>
+            <span class="glyphicon glyphicon-flag"></span>
+            Admin Inactive Magazine
+        <% end %></li>
+
+
+    </ul>
+  </div>
+
+  <%= link_to new_magazine_path, :class => 'btn btn-primary', :style => "margin-right: 5px;margin-left: 5px;" do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      New Magazine
+  <% end %>
+</div>
+
+
+<h1>All Magazines</h1>
+<div class="row">
+  <div class="col-md-12" style="padding-left: 0px;padding-right: 0px">
+    <div class=" with-nav-tabs panel-success">
+
+      <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#all_admin_magazine" data-toggle="tab">All Admin Magazines</a></li>
+        <li><a href="#all_merchants_magazine" data-toggle="tab">All MERCHANT'S Magazines</a></li>
+        <li><a href="#active_merchants_magazine" data-toggle="tab" style="color: green !important;">Active MERCHANT'S
+          Magazines</a></li>
+        <li><a href="#inactive_merchants_magazine" data-toggle="tab" style="color: red !important;">Inactive MERCHANT'S
+          Magazines</a></li>
+
+      </ul>
+
+      <div class="panel-body">
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="all_admin_magazine">
+
+            <div class="row">
+              <%= content_tag_for(:tr, @magazines) do |magazine| %>
+
+                  <div class="col-lg-3 col-md-4 col-xs-6 ">
+                    <div class="thumbnail magazine_hover">
+                      <div class="text-center" style="padding-top: 5px;"><b><%= magazine.name %></b></div>
+                      <div class="frame">
+                        <span class="helper"></span>
+                        <% if magazine.merchant_id == nil %>
+                            <%= image_tag magazine.image, :class => "frame_img" %>
+                        <% else %>
+
+                            <%= image_tag 'merchant.png', :class => "frame_img", :style => "opacity:.65; position:absolute;" %>
+
+                            <%= image_tag magazine.image, :class => "frame_img" %>
+                        <% end %>
+                      </div>
+                      <script>
+                          var img = new Image();
+                          img.onload = function () {
+                              $(".magazine_image_size<%= magazine.id %>").append(this.width + "x" + this.height);
+                          };
+                          img.src = '<%= magazine.image %>';
+                      </script>
+                      <div>
+                        <p class="text-center">
+                          <b>Status:
+                            <%= link_to status_link_text(magazine), toggle_approve_magazine_path(magazine), :remote => true, :id => "status_link_#{magazine.id}" %>
+                          </b>
+                        </p>
+
+
+                        <p><b>Number of Pages: </b><%= magazine.page.count %></p>
+
+                        <p class=""><b>Title:</b> <%= magazine.title %></p>
+
+                        <p class="magazine_image_size<%= magazine.id %>"><b>Image Size: </b></p>
+
+                        <p class=""><b>Upload Date:</b> <%= magazine.created_at.strftime("%m/%d/%Y") %></p>
+
+                        <p class=""><b>Upload Time:</b> <%= magazine.created_at.strftime("%T") %></p>
+
+                        <p class=""><b>Start Date:</b> <%= magazine.start_date %></p>
+
+                        <p class=""><b>End Date:</b> <%= magazine.end_date %></p>
+
+                        <p class=""><b>Category:</b> <%= magazine.category %></p>
+
+                        <p class=""><b>Bar Code:</b> <%= magazine.bar_code %></p>
+
+                        <% if magazine.month == "1" %>
+                            <p><b>Month Publish:</b> January </p>
+                        <% elsif magazine.month == "2" %>
+                            <p><b>Month Publish:</b> February </p>
+                        <% elsif magazine.month == "3" %>
+                            <p><b>Month Publish:</b> March </p>
+                        <% elsif magazine.month == "4" %>
+                            <p><b>Month Publish:</b> April </p>
+                        <% elsif magazine.month == "5" %>
+                            <p><b>Month Publish:</b> May </p>
+                        <% elsif magazine.month == "6" %>
+                            <p><b>Month Publish:</b> June </p>
+                        <% elsif magazine.month == "7" %>
+                            <p><b>Month Publish:</b> July </p>
+                        <% elsif magazine.month == "8" %>
+                            <p><b>Month Publish:</b> August </p>
+                        <% elsif magazine.month == "9" %>
+                            <p><b>Month Publish: </b>September</p>
+                        <% elsif magazine.month == "10" %>
+                            <p><b>Month Publish: </b>October</p>
+                        <% elsif magazine.month == "11" %>
+                            <p><b>Month Publish:</b> November </p>
+                        <% elsif magazine.month == "12" %>
+                            <p><b>Month Publish:</b> December </p>
+                        <% end %>
+
+                        <p class=""><b>Year Publish:</b> <%= magazine.year %></p>
+
+
+                      </div>
+                      <div class="magazine_buttons">
+                        <%= link_to '', all_pages_path(:magazine_id => magazine.id), :class => "glyphicon glyphicon-book" %>
+                        <%= link_to '', edit_magazine_path(magazine), :class => "glyphicon glyphicon-edit" %>
+                        <% if magazine.page.count == 0 %>
+                            <%= link_to '', magazine, method: :delete, data: {confirm: 'Are you sure?'}, :class => "glyphicon glyphicon-remove" %>
+                        <% else %>
+                            <a class="glyphicon glyphicon-remove" href="javascript:AlertIt();"></a>
+                        <% end %>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+              <% end %>
+            </div>
+            <div class="pull-right">
+              <%= paginate @magazines %>
+            </div>
+
+          </div>
+
+          <div class="tab-pane fade" id="all_merchants_magazine">
+
+
+            <div class="row">
+              <%= content_tag_for(:tr, @magazines_mechants) do |magazine| %>
+
+                  <div class="col-lg-3 col-md-4 col-xs-6 ">
+                    <div class="thumbnail magazine_hover">
+                      <div class="text-center" style="padding-top: 5px;"><b><%= magazine.name %></b></div>
+                      <div class="frame">
+                        <span class="helper"></span>
+                        <% if magazine.merchant_id == nil %>
+                            <%= image_tag magazine.image, :class => "frame_img" %>
+                        <% else %>
+
+
+                            <%= image_tag magazine.image, :class => "frame_img" %>
+                        <% end %>
+                      </div>
+                      <script>
+                          var img = new Image();
+                          img.onload = function () {
+                              $(".magazine_image_size<%= magazine.id%>#all_merchants_magazine").append(this.width + "x" + this.height);
+
+                          };
+                          img.src = '<%= magazine.image %>';
+                      </script>
+                      <div>
+                        <p class="text-center">
+                          <b>Status:
+                            <%= link_to status_link_text(magazine), toggle_approve_magazine_path(magazine), :remote => true, :id => "status_link_#{magazine.id}" %>
+                          </b>
+                           </p>
+
+
+                        <p><b>Number of Pages: </b><%= magazine.page.count %></p>
+
+                        <p class=""><b>Title:</b> <%= magazine.title %></p>
+
+                        <p class="magazine_image_size<%= magazine.id %>"><b>Image Size: </b></p>
+
+                        <p class=""><b>Upload Date:</b> <%= magazine.created_at.strftime("%m/%d/%Y") %></p>
+
+                        <p class=""><b>Upload Time:</b> <%= magazine.created_at.strftime("%T") %></p>
+
+                        <p class=""><b>Start Date:</b> <%= magazine.start_date %></p>
+
+                        <p class=""><b>End Date:</b> <%= magazine.end_date %></p>
+
+                        <p class=""><b>Category:</b> <%= magazine.category %></p>
+
+                        <p class=""><b>Bar Code:</b> <%= magazine.bar_code %></p>
+
+                        <% if magazine.month == "1" %>
+                            <p><b>Month Publish:</b> January </p>
+                        <% elsif magazine.month == "2" %>
+                            <p><b>Month Publish:</b> February </p>
+                        <% elsif magazine.month == "3" %>
+                            <p><b>Month Publish:</b> March </p>
+                        <% elsif magazine.month == "4" %>
+                            <p><b>Month Publish:</b> April </p>
+                        <% elsif magazine.month == "5" %>
+                            <p><b>Month Publish:</b> May </p>
+                        <% elsif magazine.month == "6" %>
+                            <p><b>Month Publish:</b> June </p>
+                        <% elsif magazine.month == "7" %>
+                            <p><b>Month Publish:</b> July </p>
+                        <% elsif magazine.month == "8" %>
+                            <p><b>Month Publish:</b> August </p>
+                        <% elsif magazine.month == "9" %>
+                            <p><b>Month Publish: </b>September</p>
+                        <% elsif magazine.month == "10" %>
+                            <p><b>Month Publish: </b>October</p>
+                        <% elsif magazine.month == "11" %>
+                            <p><b>Month Publish:</b> November </p>
+                        <% elsif magazine.month == "12" %>
+                            <p><b>Month Publish:</b> December </p>
+                        <% end %>
+
+                        <p class=""><b>Year Publish:</b> <%= magazine.year %></p>
+
+
+                      </div>
+                      <div class="magazine_buttons">
+                        <%= link_to '', all_pages_path(:magazine_id => magazine.id), :class => "glyphicon glyphicon-book" %>
+                        <%= link_to '', edit_magazine_path(magazine), :class => "glyphicon glyphicon-edit" %>
+                        <% if magazine.page.count == 0 %>
+                            <%= link_to '', magazine, method: :delete, data: {confirm: 'Are you sure?'}, :class => "glyphicon glyphicon-remove" %>
+                        <% else %>
+                            <a class="glyphicon glyphicon-remove" href="javascript:AlertIt();"></a>
+                        <% end %>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+              <% end %>
+            </div>
+            <div class="pull-right">
+              <%= paginate @magazines_mechants %>
+            </div>
+
+          </div>
+
+
+          <div class="tab-pane fade" id="active_merchants_magazine">
+
+
+            <div class="row">
+              <%= content_tag_for(:tr, @active_magazines_mechants) do |magazine| %>
+
+                  <div class="col-lg-3 col-md-4 col-xs-6 ">
+                    <div class="thumbnail magazine_hover">
+                      <div class="text-center" style="padding-top: 5px;"><b><%= magazine.name %></b></div>
+                      <div class="frame">
+                        <span class="helper"></span>
+                        <% if magazine.merchant_id == nil %>
+                            <%= image_tag magazine.image, :class => "frame_img" %>
+                        <% else %>
+
+
+                            <%= image_tag magazine.image, :class => "frame_img" %>
+                        <% end %>
+                      </div>
+                      <script>
+                          var img = new Image();
+                          img.onload = function () {
+                              $(".magazine_image_size<%= magazine.id %>#active_merchants_magazine").append(this.width + "x" + this.height);
+
+                          };
+                          img.src = '<%= magazine.image %>';
+                      </script>
+                      <div>
+
+
+                        <p><b>Number of Pages: </b><%= magazine.page.count %></p>
+
+                        <p class=""><b>Title:</b> <%= magazine.title %></p>
+
+                        <p class="magazine_image_size<%= magazine.id %>"><b>Image Size: </b></p>
+
+                        <p class=""><b>Upload Date:</b> <%= magazine.created_at.strftime("%m/%d/%Y") %></p>
+
+                        <p class=""><b>Upload Time:</b> <%= magazine.created_at.strftime("%T") %></p>
+
+                        <p class=""><b>Start Date:</b> <%= magazine.start_date %></p>
+
+                        <p class=""><b>End Date:</b> <%= magazine.end_date %></p>
+
+                        <p class=""><b>Category:</b> <%= magazine.category %></p>
+
+                        <p class=""><b>Bar Code:</b> <%= magazine.bar_code %></p>
+
+                        <% if magazine.month == "1" %>
+                            <p><b>Month Publish:</b> January </p>
+                        <% elsif magazine.month == "2" %>
+                            <p><b>Month Publish:</b> February </p>
+                        <% elsif magazine.month == "3" %>
+                            <p><b>Month Publish:</b> March </p>
+                        <% elsif magazine.month == "4" %>
+                            <p><b>Month Publish:</b> April </p>
+                        <% elsif magazine.month == "5" %>
+                            <p><b>Month Publish:</b> May </p>
+                        <% elsif magazine.month == "6" %>
+                            <p><b>Month Publish:</b> June </p>
+                        <% elsif magazine.month == "7" %>
+                            <p><b>Month Publish:</b> July </p>
+                        <% elsif magazine.month == "8" %>
+                            <p><b>Month Publish:</b> August </p>
+                        <% elsif magazine.month == "9" %>
+                            <p><b>Month Publish: </b>September</p>
+                        <% elsif magazine.month == "10" %>
+                            <p><b>Month Publish: </b>October</p>
+                        <% elsif magazine.month == "11" %>
+                            <p><b>Month Publish:</b> November </p>
+                        <% elsif magazine.month == "12" %>
+                            <p><b>Month Publish:</b> December </p>
+                        <% end %>
+
+                        <p class=""><b>Year Publish:</b> <%= magazine.year %></p>
+
+
+                      </div>
+                      <div class="magazine_buttons">
+                        <%= link_to '', all_pages_path(:magazine_id => magazine.id), :class => "glyphicon glyphicon-book" %>
+                        <%= link_to '', edit_magazine_path(magazine), :class => "glyphicon glyphicon-edit" %>
+                        <% if magazine.page.count == 0 %>
+                            <%= link_to '', magazine, method: :delete, data: {confirm: 'Are you sure?'}, :class => "glyphicon glyphicon-remove" %>
+                        <% else %>
+                            <a class="glyphicon glyphicon-remove" href="javascript:AlertIt();"></a>
+                        <% end %>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+              <% end %>
+            </div>
+            <div class="pull-right">
+              <%= paginate @active_magazines_mechants %>
+            </div>
+
+          </div>
+
+
+          <div class="tab-pane fade" id="inactive_merchants_magazine">
+
+
+            <div class="row">
+              <%= content_tag_for(:tr, @inactive_magazines_mechants) do |magazine| %>
+
+                  <div class="col-lg-3 col-md-4 col-xs-6 ">
+                    <div class="thumbnail magazine_hover">
+                      <div class="text-center" style="padding-top: 5px;"><b><%= magazine.name %></b></div>
+                      <div class="frame">
+                        <span class="helper"></span>
+                        <% if magazine.merchant_id == nil %>
+                            <%= image_tag magazine.image, :class => "frame_img" %>
+                        <% else %>
+
+
+                            <%= image_tag magazine.image, :class => "frame_img" %>
+                        <% end %>
+                      </div>
+                      <script>
+                          var img = new Image();
+                          img.onload = function () {
+                              $(".magazine_image_size<%= magazine.id %>#inactive_merchants_magazine").append(this.width + "x" + this.height);
+
+                          };
+                          img.src = '<%= magazine.image %>';
+                      </script>
+                      <div>
+
+
+                        <p><b>Number of Pages: </b><%= magazine.page.count %></p>
+
+                        <p class=""><b>Title:</b> <%= magazine.title %></p>
+
+                        <p class="magazine_image_size<%= magazine.id %>"><b>Image Size: </b></p>
+
+                        <p class=""><b>Upload Date:</b> <%= magazine.created_at.strftime("%m/%d/%Y") %></p>
+
+                        <p class=""><b>Upload Time:</b> <%= magazine.created_at.strftime("%T") %></p>
+
+                        <p class=""><b>Start Date:</b> <%= magazine.start_date %></p>
+
+                        <p class=""><b>End Date:</b> <%= magazine.end_date %></p>
+
+                        <p class=""><b>Category:</b> <%= magazine.category %></p>
+
+                        <p class=""><b>Bar Code:</b> <%= magazine.bar_code %></p>
+
+                        <% if magazine.month == "1" %>
+                            <p><b>Month Publish:</b> January </p>
+                        <% elsif magazine.month == "2" %>
+                            <p><b>Month Publish:</b> February </p>
+                        <% elsif magazine.month == "3" %>
+                            <p><b>Month Publish:</b> March </p>
+                        <% elsif magazine.month == "4" %>
+                            <p><b>Month Publish:</b> April </p>
+                        <% elsif magazine.month == "5" %>
+                            <p><b>Month Publish:</b> May </p>
+                        <% elsif magazine.month == "6" %>
+                            <p><b>Month Publish:</b> June </p>
+                        <% elsif magazine.month == "7" %>
+                            <p><b>Month Publish:</b> July </p>
+                        <% elsif magazine.month == "8" %>
+                            <p><b>Month Publish:</b> August </p>
+                        <% elsif magazine.month == "9" %>
+                            <p><b>Month Publish: </b>September</p>
+                        <% elsif magazine.month == "10" %>
+                            <p><b>Month Publish: </b>October</p>
+                        <% elsif magazine.month == "11" %>
+                            <p><b>Month Publish:</b> November </p>
+                        <% elsif magazine.month == "12" %>
+                            <p><b>Month Publish:</b> December </p>
+                        <% end %>
+
+                        <p class=""><b>Year Publish:</b> <%= magazine.year %></p>
+
+
+                      </div>
+                      <div class="magazine_buttons">
+                        <%= link_to '', all_pages_path(:magazine_id => magazine.id), :class => "glyphicon glyphicon-book" %>
+                        <%= link_to '', edit_magazine_path(magazine), :class => "glyphicon glyphicon-edit" %>
+                        <% if magazine.page.count == 0 %>
+                            <%= link_to '', magazine, method: :delete, data: {confirm: 'Are you sure?'}, :class => "glyphicon glyphicon-remove" %>
+                        <% else %>
+                            <a class="glyphicon glyphicon-remove" href="javascript:AlertIt();"></a>
+                        <% end %>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+              <% end %>
+            </div>
+            <div class="pull-right">
+              <%= paginate @inactive_magazines_mechants %>
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
+    // store the currently selected tab in the hash value
+    $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
+        var id = $(e.target).attr("href").substr(1);
+        window.location.hash = id;
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    $('#myTab a[href="' + hash + '"]').tab('show');
+
+</script>
+
+
+<script type="text/javascript">
+    function AlertIt() {
+        var answer = confirm("Existing Pages! Can't Delete")
+    }
+</script>

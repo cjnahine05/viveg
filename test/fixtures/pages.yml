@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  magazines_id: 
+  page_number: MyString
+  image: MyString
+
+two:
+  magazines_id: 
+  page_number: MyString
+  image: MyString

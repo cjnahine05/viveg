@@ -1,0 +1,73 @@
+<%= render 'layouts/admin_nav' %>
+<div class="page-header">
+  <%= link_to all_magazine_path, :class => 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Back to Magazine
+  <% end %>
+  <%= link_to inactive_pages_path(:magazine_id => @magazine.id), :class => 'btn btn-danger' do %>
+      <span class="glyphicon glyphicon-flag"></span>
+      Inactive Pages
+  <% end %>
+  <%= link_to pages_path(:magazine_id => @magazine.id), :class => 'btn btn-warning' do %>
+      <span class="glyphicon glyphicon-align-justify"></span>
+      List of Pages
+  <% end %>
+  <%= link_to all_pages_path(:magazine_id => @magazine.id), :class => 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-flag"></span>
+      All
+  <% end %>
+  <h1 style="color: green;"><%= @magazine.name %> Active Pages</h1>
+</div>
+
+
+
+
+<div class="row"> <%= content_tag_for(:tr, @pages) do |page| %>
+      <div class="col-lg-3 col-md-4 col-xs-6 ">
+
+        <div class="thumbnail magazine_hover">
+          <div class="text-center" style="padding-bottom: 5px;"><b><%= page.page_number %></b></div>
+          <div class="frame">
+            <span class="helper"></span><%= image_tag page.image, :class => "frame_img" %>
+          </div>
+          <script>
+              var img = new Image();
+              img.onload = function () {
+                  $(".page_image_size<%= page.id %>").append(this.width + "x" + this.height);
+
+              };
+              img.src = '<%= page.image %>';
+          </script>
+
+
+
+          <p><b>Coordinates Count: </b><%= page.coordinates.count %></p>
+
+          <p class="page_image_size<%= page.id %>"><b>Image Size: </b></p>
+
+          <p class=""><b>Upload Date:</b> <%= page.created_at.strftime("%m/%d/%Y") %></p>
+
+          <p class=""><b>Upload Time:</b> <%= page.created_at.strftime("%T") %></p>
+
+          <div class="magazine_buttons">
+            <%= link_to '', coordinates_path(:page_id => page.id), 'data-no-turbolink' => true, :class => "glyphicon glyphicon-th" %>
+            <%= link_to '', edit_page_path(page), :class => "glyphicon glyphicon-edit" %>
+            <% if page.coordinates.count == 0 %>
+                <%= link_to '', page, method: :delete, data: {confirm: 'Are you sure?'}, :class => "glyphicon glyphicon-remove" %>
+            <% else %>
+                <a class = "glyphicon glyphicon-remove"  href="javascript:AlertIt();"></a>
+            <% end %>
+          </div>
+
+        </div>
+
+
+      </div>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+    function AlertIt() {
+        var answer = confirm ("Existing Coordinates! Can't Delete")
+    }
+</script>

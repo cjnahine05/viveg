@@ -1,0 +1,31 @@
+<%= render 'layouts/admin_nav' %>
+<div class="page-header">
+  <%= link_to new_merchant_path, :class => 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      New Merchant
+  <% end %>
+  <h1>List of Merchants</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Company name</th>
+      <th>Banner</th>
+      <th>Edit</th>
+
+      <th>Remove</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <%= content_tag_for(:tr, @merchants) do |merchant| %>
+        <td><%= merchant.company_name %></td>
+        <td><%= link_to '', merchant_banners_path(:merchant_id => merchant.id), :class => "glyphicon glyphicon-book", :style => "font-size: x-large;" %></td>
+        <td><%= link_to '', edit_merchant_path(merchant), :class => "glyphicon glyphicon-edit", :style => "font-size: x-large;" %></td>
+        <td><%= link_to '', merchant, method: :delete, data: {confirm: 'Are you sure?'}, :class => "glyphicon glyphicon-remove", :style => "font-size: x-large;" %></td>
+    <% end %>
+    </tbody>
+  </table>
+</div>

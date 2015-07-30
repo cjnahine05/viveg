@@ -1,0 +1,35 @@
+// Place all the styles related to the Magazines controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.frame {
+  height: 400px !important;      /* equals max image height */
+  width: 252px !important;
+  text-align: center !important;
+}
+
+
+.frame_img {
+  vertical-align: middle !important;
+  max-height: 400px;
+  max-width: 252px;
+}
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.magazine_buttons{
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  font-size: 20px;
+}
+
+.magazine_hover{
+  cursor: pointer;
+}
+.magazine_hover:hover{
+  background-color: lightgrey;
+}
+

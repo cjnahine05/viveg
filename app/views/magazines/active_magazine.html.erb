@@ -1,0 +1,124 @@
+<%= render 'layouts/admin_nav' %>
+<div class="page-header">
+  <div class="btn-group pull-right">
+    <button type="button" class="btn btn-success">Menu</button>
+    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span class="caret"></span>
+      <span class="sr-only">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu" style="padding-bottom: 0px;padding-top: 0px;">
+
+      <li>
+        <%= link_to all_magazine_path, :class => ' btn-default' do %>
+            <span class="glyphicon glyphicon-flag"></span>
+            All Admin Magazine
+        <% end %></li>
+
+
+      <li> <%= link_to magazines_path, :class => ' btn-warning' do %>
+            <span class="glyphicon glyphicon-align-justify"></span>
+            Admin List of Magazine
+        <% end %></li>
+
+      <li>  <%= link_to inactive_magazine_path, :class => ' btn-danger' do %>
+            <span class="glyphicon glyphicon-flag"></span>
+            Admin Inactive Magazine
+        <% end %></li>
+
+
+    </ul>
+  </div>
+  <h1 style="color: green;">Active Magazines</h1>
+</div>
+
+<div class="row"> <%= content_tag_for(:tr, @magazines) do |magazine| %>
+      <div class="col-lg-3 col-md-4 col-xs-6 ">
+
+        <div class="thumbnail magazine_hover">
+          <div class="text-center" style="padding-top: 5px;"><b><%= magazine.name %></b></div>
+          <div class="frame">
+            <span class="helper"></span><%= image_tag magazine.image, :class => "frame_img" %>
+          </div>
+          <script>
+              var img = new Image();
+              img.onload = function () {
+                  $(".magazine_image_size<%= magazine.id %>").append(this.width + "x" + this.height);
+
+              };
+              img.src = '<%= magazine.image %>';
+          </script>
+          <div >
+
+            <br/>
+
+            <p><b>Number of Pages: </b><%= magazine.page.count %></p>
+            <p class=""><b>Title:</b> <%= magazine.title %></p>
+            <p class="magazine_image_size<%= magazine.id %>"><b>Image Size: </b></p>
+
+            <p class=""><b>Upload Date:</b> <%= magazine.created_at.strftime("%m/%d/%Y") %></p>
+
+            <p class=""><b>Upload Time:</b> <%= magazine.created_at.strftime("%T") %></p>
+
+            <p class=""><b>Start Date:</b> <%= magazine.start_date %></p>
+
+            <p class=""><b>End Date:</b> <%= magazine.end_date %></p>
+
+            <p class=""><b>Category:</b> <%= magazine.category %></p>
+
+            <p class=""><b>Bar Code:</b> <%= magazine.bar_code %></p>
+
+            <% if magazine.month == "1" %>
+                <p ><b>Month Publish:</b> January </p>
+            <% elsif magazine.month == "2"  %>
+                <p ><b>Month Publish:</b> February </p>
+            <% elsif magazine.month == "3"  %>
+                <p ><b>Month Publish:</b> March </p>
+            <% elsif magazine.month == "4"  %>
+                <p ><b>Month Publish:</b> April </p>
+            <% elsif magazine.month == "5"  %>
+                <p ><b>Month Publish:</b> May </p>
+            <% elsif magazine.month == "6"  %>
+                <p ><b>Month Publish:</b> June </p>
+            <% elsif magazine.month == "7"  %>
+                <p ><b>Month Publish:</b> July </p>
+            <% elsif magazine.month == "8"  %>
+                <p ><b>Month Publish:</b> August </p>
+            <% elsif magazine.month == "9"  %>
+                <p ><b>Month Publish: </b>September</p>
+            <% elsif magazine.month == "10"  %>
+                <p ><b>Month Publish: </b>October</p>
+            <% elsif magazine.month == "11"  %>
+                <p ><b>Month Publish:</b> November </p>
+            <% elsif magazine.month == "12"  %>
+                <p ><b>Month Publish:</b> December </p>
+            <% end %>
+
+            <p class=""><b>Year Publish:</b> <%= magazine.year %></p>
+
+
+          </div>
+          <div class="magazine_buttons">
+            <%= link_to '', all_pages_path(:magazine_id => magazine.id), :class => "glyphicon glyphicon-book" %>
+            <%= link_to '', edit_magazine_path(magazine), :class => "glyphicon glyphicon-edit" %>
+            <% if magazine.page.count == 0 %>
+                <%= link_to '', magazine, method: :delete, data: {confirm: 'Are you sure?'}, :class => "glyphicon glyphicon-remove" %>
+            <% else %>
+                <a class = "glyphicon glyphicon-remove"  href="javascript:AlertIt();"></a>
+            <% end %>
+          </div>
+
+        </div>
+
+
+      </div>
+  <% end %>
+</div>
+<div class="pull-right">
+  <%= paginate @magazines %>
+</div>
+<script type="text/javascript">
+    function AlertIt() {
+        var answer = confirm ("Banner is Active, You cant delete! || .Existing Pages! Can't Delete")
+    }
+</script>
+

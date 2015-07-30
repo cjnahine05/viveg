@@ -1,0 +1,105 @@
+<%= render 'layouts/admin_nav' %>
+
+
+
+
+
+<div class="page-header">
+  <%= link_to new_banner_path, :class => 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      New Banner
+  <% end %>
+  <h1>Banners</h1>
+</div>
+<div class="panel panel-default">
+  <table class="table table-bordered table-striped" id="sortable">
+    <thead>
+    <tr>
+      <th>
+        Name
+      </th>
+      <th>
+        Image (Click to Preview)
+      </th>
+      <th>
+        Start Date
+      </th>
+      <th>
+        End Date
+      </th>
+
+      <th>
+        Status
+      </th>
+
+      <th>
+        Option
+      </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <% @banners.each do |banner| %>
+
+        <div class="modal fade bs-example-modal-lg<%= banner.id %>" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="col-lg-offset-1 col-lg-10">
+                <%= image_tag banner.image,:style => "width:100%;"  %>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+
+        <tr data-item-id=<%= "#{banner.id}" %> class="item">
+          <td>
+            <%= banner.name %>
+          </td>
+          <td class="text-center" >
+            <a  style="cursor: pointer" data-toggle="modal" data-target=".bs-example-modal-lg<%= banner.id %>"><%=  banner.image %></a>
+          </td>
+          <td class="text-center">
+
+            <%= banner.start_date %>
+          </td>
+          <td class="text-center">
+            <%= banner.end_date %>
+
+          </td>
+          <td class="text-center">
+            <%= link_to status_link_text(banner) , toggle_approve_banner_path(banner), :remote => true, :id => "status_link_#{banner.id}", :class => " btn btn-default "  %>
+          </td>
+
+          <td class="text-center">
+
+
+              <%= link_to '', edit_banner_path(banner), :class => "glyphicon glyphicon-edit" ,:style => "font-size: x-large;" %>
+
+                <% if banner.status == true %>
+                <span  class = "glyphicon glyphicon-remove" style = "font-size: x-large; cursor: pointer;"  onclick="myFunction()"></span>
+            <% else %>
+                <%= link_to '', banner, method: :delete, data: {confirm: 'Are you sure?'}, :class => "glyphicon glyphicon-remove" ,:style => "font-size: x-large;" %>
+            <% end %>
+
+          </td>
+
+
+        </tr>
+
+    <% end %>
+
+    </tbody>
+  </table>
+
+</div>
+<div class="pull-right">
+  <%= paginate @banners %>
+</div>
+
+<script>
+    function myFunction() {
+        alert("Banner is Active, You cant delete!");
+    }
+</script>

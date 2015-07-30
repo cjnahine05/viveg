@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pages_id: 
+  product_name: MyString
+  coordinates: MyString
+
+two:
+  pages_id: 
+  product_name: MyString
+  coordinates: MyString

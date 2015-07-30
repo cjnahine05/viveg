@@ -1,0 +1,38 @@
+<%= render 'layouts/admin_nav' %>
+<div class="page-header">
+  <%= link_to new_logo_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Logo
+  <% end %>
+  <h1>Viveg Logo</h1>
+</div>
+
+<div class="row">
+  <%= content_tag_for(:tr, @logos) do |logo| %>
+      <div class="col-lg-3 col-md-4 col-xs-6 ">
+
+        <div class="thumbnail magazine_hover">
+          <div class="text-center"><b><%= logo.name %></b></div>
+          <div class="frame-banner">
+            <span class="helper"></span><%= image_tag logo.image, :class => "banner_img" %>
+          </div>
+          <p class="text-center">
+            <b>Status:
+          <%= link_to status_link_text(logo), toggle_approve_logo_path(logo), :remote => true, :id => "status_link_#{logo.id}"  %>
+            </b>
+          </p>
+
+
+          <div class="banner_buttons">
+            <%= link_to '', edit_logo_path(logo), :class => "glyphicon glyphicon-edit" %>
+            <%= link_to '', logo, method: :delete, data: {confirm: 'Are you sure?'}, :class => "glyphicon glyphicon-remove" %>
+
+
+          </div>
+
+        </div>
+
+
+      </div>
+  <% end %>
+</div>

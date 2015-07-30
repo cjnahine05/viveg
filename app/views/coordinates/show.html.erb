@@ -1,0 +1,24 @@
+<%= render 'layouts/admin_nav' %>
+<div class="page-header">
+  <%= link_to coordinates_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_coordinate_path(@coordinate), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show coordinate</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Pages:</dt>
+  <dd><%= @coordinate.page_id %></dd>
+
+  <dt>Product name:</dt>
+  <dd><%= @coordinate.product_name %></dd>
+
+  <dt>Coordinates:</dt>
+  <dd><%= @coordinate.coordinates %></dd>
+
+</dl>

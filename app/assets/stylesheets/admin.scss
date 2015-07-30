@@ -1,0 +1,107 @@
+// Place all the styles related to the admin controller here.
+// They will automatically be included in application.css.sass.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.glyphicon-remove{
+  color:#d9534f;
+}
+.glyphicon-edit{
+  color: #15aacd !important ;
+}
+.glyphicon-book{
+  color: #f0ad4e !important ;
+}
+.glyphicon-th{
+  color: #5cb85c !important ;
+}
+.glyphicon-share{
+  color: #337ab7 !important ;
+}
+.active-item-shadow {
+  -webkit-box-shadow: rgba(133,133,133,0.1) 0 0 5px 2px,rgba(133,133,133,0.3) 0 0 2px;
+  -moz-box-shadow: rgba(133,133,133,0.1) 0 0 5px 2px,rgba(133,133,133,0.3) 0 0 2px;
+  box-shadow: rgba(133,133,133,0.1) 0 0 5px 2px,rgba(133,133,133,0.3) 0 0 2px;
+}
+
+.login-panel {
+  margin-top: 25%;
+}
+
+.alert-error {
+  background-color: #f2dede;
+  border-color: #eed3d7;
+  color: #b94a48;
+  text-align: left;
+}
+
+.alert-alert {
+  background-color: #f2dede;
+  border-color: #eed3d7;
+  color: #b94a48;
+  text-align: left;
+}
+
+.alert-success {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #468847;
+  text-align: left;
+}
+
+.alert-notice {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #468847;
+  text-align: left;
+}
+
+
+.frame-banner {
+  height: 252px !important;      /* equals max image height */
+  width: 252px !important;
+  text-align: center !important;
+}
+
+
+.banner_img {
+  vertical-align: middle !important;
+  max-height: 252px;
+  max-width: 252px;
+}
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.banner_buttons{
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  font-size: 20px;
+}
+.navbar-inverse{
+  background-color: #15aacd  !important;
+  border-color: #ffffff !important;
+}
+.navbar-inverse .navbar-nav > li > a{
+  color: #000000 !important;
+}
+.navbar-inverse .navbar-brand{
+  color: #000000 !important;
+}
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus{
+  color: #fff !important;
+  background-color: #6cb33f !important;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #15aacd !important;
+  border-color: #15aacd !important;
+}
+.btn-success {
+  color: #fff;
+  background-color: #6cb33f !important;
+  border-color: #6cb33f !important;
+}
+.modal-backdrop{
+  z-index: -1000 !important;
+}

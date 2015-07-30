@@ -1,0 +1,49 @@
+<%= render 'layouts/admin_nav' %>
+<div class="page-header">
+  <%= link_to all_magazine_path, :class => 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Back to Magazine
+  <% end %>
+
+  <%= link_to inactive_pages_path(:magazine_id => @magazine.id), :class => 'btn btn-danger' do %>
+      <span class="glyphicon glyphicon-flag"></span>
+      Inactive Pages
+  <% end %>
+
+  <%= link_to active_pages_path(:magazine_id => @magazine.id), :class => 'btn btn-success' do %>
+      <span class="glyphicon glyphicon-flag"></span>
+      Active Pages
+  <% end %>
+  <%= link_to all_pages_path(:magazine_id => @magazine.id), :class => 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-flag"></span>
+      All
+  <% end %>
+
+  <h1><%= @magazine.name %> List of Pages</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Coordinates Count</th>
+      <th>Page Number</th>
+      <th>Created At</th>
+      <th>Status</th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+    <%= content_tag_for(:tr, @pages) do |page| %>
+        <td><%= page.id %></td>
+        <td class="text-center"><%= page.coordinates.count%></td>
+        <td><%= page.page_number %></td>
+        <td><%= page.created_at %></td>
+        <td> <%= link_to status_link_text(page), toggle_approve_page_path(page), :remote => true, :id => "status_link_#{page.id}" , :class => "btn btn-default"  %></td>
+
+    <% end %>
+    </tbody>
+  </table>
+</div>

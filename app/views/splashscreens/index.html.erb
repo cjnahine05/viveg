@@ -1,0 +1,31 @@
+<%= render 'layouts/admin_nav' %>
+<div class="page-header">
+  <%= link_to new_splashscreen_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Splashscreen
+  <% end %>
+  <h1>Splash Screens</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Name</th>
+            <th>Video</th>
+
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @splashscreens) do |splashscreen| %>
+            <td><%= splashscreen.name %></td>
+            <td class="text-center"> <video src="<%= splashscreen.video %>" width="40%" height="40%" preload controls></video></td>
+        <td><%= link_to 'Edit', edit_splashscreen_path(splashscreen) ,:class => 'btn btn-primary' %></td>
+        <td><%= link_to 'Remove', splashscreen, method: :delete, data: { confirm: 'Are you sure?' } ,:class => 'btn btn-danger' %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

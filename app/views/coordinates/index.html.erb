@@ -1,0 +1,195 @@
+<%= render 'layouts/admin_nav' %>
+
+<style>
+    .canvasMap {
+        z-index: 1000;
+        position: relative;
+        width: 750px;
+        height: 1226px;
+    }
+</style>
+<div class="page-header">
+  <%= link_to all_pages_path(:magazine_id => @pages.magazine_id), 'data-no-turbolink' => true, :class => 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Back
+  <% end %>
+  <%= link_to index_path(:page_id => @pages.id), :target => "_blank", :class => 'btn btn-success' do %>
+      <span class="glyphicon glyphicon-picture"></span>
+      Image Mapping
+  <% end %>
+  <%= link_to new_coordinate_path(:page_id => @pages.id), :class => 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      New Coordinate
+  <% end %>
+  <h1>Coordinates</h1>
+</div>
+<div class="col-lg-12 table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+    <tr>
+      <th>Coordinates ID</th>
+      <th>Product name</th>
+      <th>Product ID</th>
+      <th>Bar Code</th>
+      <th>Site</th>
+
+
+      <th>Option</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <%= content_tag_for(:tr, @coordinates) do |coordinate| %>
+
+        <td><%= coordinate.id %></td>
+        <td><%= coordinate.product_name %></td>
+        <td><%= coordinate.product_id %></td>
+        <td><%= coordinate.barcode %></td>
+        <td><%= coordinate.site_link %></td>
+        <td>
+          <%= link_to 'Edit', edit_coordinate_path(coordinate), :class => "btn btn-primary" %>
+          <%= link_to 'Remove', coordinate, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-danger" %>
+        </td>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="col-lg-12 ">
+  <div class="thumbnail col-lg-12 " style="text-align: center;">
+    <div class="text-center"><b>Page Number: <%= @pages.page_number %></b></div>
+
+    <span class="helper"></span>
+    <canvas class="canvasMap" id="canvas<%= @pages.id %>" width="750" height=1226" style="background:url(<%= @pages.image %>)"></canvas>
+
+    <map id="<%= @pages.id %>" name="<%= @pages.id %>">
+      <map name="map<%= @pages.id %>">
+        <div id="areas">
+        </div>
+      </map>
+
+      <%= content_tag_for(:tr, @coordinates) do |coordinate_map| %>
+          <script type="text/javascript">
+              function init() {
+                  $(function () {
+                      var TWO_PI = Math.PI * 2;
+                      var map = $("#map<%= @pages.id %>");
+                      var areas = $("#areas");
+                      var canvas = $("#canvas<%= @pages.id %>")[0];
+                      var c = canvas.getContext("2d");
+
+                      canvas.height = 1226;
+                      canvas.width = 750;
+                      $.fn.render = function () {
+                          this.data.apply(this, arguments);
+                          render();
+                      }
+
+                      function clear() {
+                          c.fillStyle = "black";
+
+                      }
+
+
+                      // create a poly
+                      $('<area />', {
+                          shape: "poly",
+                          coords: "<%= coordinate_map.coordinates %>",
+                          id: "<%= coordinate_map.id %>",
+                          alt: "poly"
+                      }).data({
+
+
+                          strokeStyle: "red",
+                          lineWidth: 3
+
+
+                      }).appendTo(areas);
+
+
+                      render();
+
+
+                      function setStyle(fillStyle, strokeStyle, lineWidth) {
+                          if (fillStyle) {
+                              c.fillStyle = fillStyle;
+
+                          }
+                          if (strokeStyle) {
+                              if (lineWidth) {
+                                  c.lineWidth = lineWidth;
+                              }
+                              c.strokeStyle = strokeStyle;
+                          }
+                      }
+
+                      function fillStroke(fillStyle, strokeStyle) {
+                          if (fillStyle) c.fill();
+                          if (strokeStyle) c.stroke();
+                      }
+
+                      function render(noClear) {
+                          if (!noClear) {
+                              clear();
+                          }
+
+                          areas.children().each(function (i) {
+                              var area = $(this);
+                              var shape = area.attr("shape");
+                              var coords = area.attr("coords").split(",");
+                              var fillStyle = area.data("fillStyle");
+                              var strokeStyle = area.data("strokeStyle");
+                              var lineWidth = area.data("lineWidth");
+
+                              if (shape == "circle") {
+
+                                  setStyle(fillStyle, strokeStyle, lineWidth);
+
+                                  c.beginPath();
+                                  c.arc(coords[0], coords[1], coords[2], 0, TWO_PI, false);
+                                  c.closePath();
+
+                                  fillStroke(fillStyle, strokeStyle);
+
+                              } else if (shape == "poly") {
+
+                                  if (fillStyle) {
+                                      c.fillStyle = fillStyle;
+
+                                  }
+                                  if (strokeStyle) {
+                                      if (lineWidth) {
+                                          c.lineWidth = lineWidth;
+                                      }
+                                      c.strokeStyle = strokeStyle;
+                                  }
+
+
+                                  c.beginPath();
+                                  var leng = coords.length;
+                                  c.moveTo(coords[0], coords[1]);
+                                  for (var i = 2; i < leng; i += 2) {
+                                      c.lineTo(coords[i], coords[i + 1]);
+                                  }
+                                  c.closePath();
+
+                                  fillStroke(fillStyle, strokeStyle);
+
+                              }
+
+                              c.lineWidth = 1;
+                          });
+                      }
+                  });
+              }
+              document.addEventListener("DOMContentLoaded", init, false);
+          </script>
+      <% end %>
+    </map>
+  </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,50 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="" style="  padding-top: 2px;
+                padding-bottom: 2px;
+                padding-right: 0px;
+                padding-left: 0px;"><span><img src="/assets/viveg-logo.png" alt="" width="48px"/></span></a></li>
+        <li><a href="<%= admin_index_path %>" class="nav navbar-brand">IVEG</a></li>
+        <li class="menu_link <%= "active " if current_page?(dashboard_index_path) %>">
+          <%= link_to('Dashboard', dashboard_index_path, data: { no_turbolink: true }) %>
+          </li>
+        <li class="menu_link <%= "active " if current_page?(merchants_path) %>">
+          <a href="<%= merchants_path  %> ">Merchant</a></li>
+        <li class="menu_link <%= "active " if current_page?(logos_path) %>">
+          <a href="<%= logos_path  %> ">Logo</a></li>
+        <li class="menu_link <%= "active " if current_page?(splashscreens_path) %>">
+          <a href="<%= splashscreens_path %> ">Splash Screens</a></li>
+        <li class="menu_link <%= "active " if current_page?(banners_path) %>">
+          <a href="<%= banners_path %> ">Banner Ads</a></li>
+        <li class="menu_link <%= "active " if current_page?(all_magazine_path) %>">
+          <a href="<%= all_magazine_path %> ">Magazines</a></li>
+
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "Sign Out", destroy_admin_session_path, method: :delete %></li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="container">
+  <% flash.each do |name, msg| %>
+      <%= content_tag :div, :class => "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable", :role => "alert" do %>
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <%= msg %>
+      <% end %>
+  <% end %>
+</div>

@@ -1,0 +1,62 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+.navbar-top-fixed-user {
+  background-color: #FFFFFF !important;
+  border-color: #FFFFFF !important;
+}
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+  color: #fff;
+  background-color: #6cb33f !important;
+}
+.navbar-inverse .navbar-nav > li > a {
+  color: #FFFFFF;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border-top: 4px solid #5cb85c !important;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+}
+.frame {
+  height: 400px !important;      /* equals max image height */
+  width: 252px !important;
+  text-align: center !important;
+}
+
+
+.frame_img {
+  vertical-align: middle !important;
+  max-height: 400px;
+  max-width: 252px;
+}
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+.magazine_buttons{
+  position: absolute;
+  top: 5px;
+  right: 20px;
+  font-size: 20px;
+}
+
+.magazine_hover{
+  cursor: pointer;
+}
+.magazine_hover:hover{
+  background-color: lightgrey;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #15aacd !important;
+  border-color: #15aacd !important;
+}
+.btn-success {
+  color: #fff;
+  background-color: #6cb33f !important;
+  border-color: #6cb33f !important;
+}
